@@ -92,6 +92,7 @@ def alu_4bit(A,B,aInv,bInv,Op0,Op1):
 	OF = ((OF[0]| OF[1] | OF[2] | Of[2])^1)
 	less = SET[3]
 	Cout = Cout[3]	
+	return (Cout,Y,ZERO,OF)
 
 #
 # tests zone
