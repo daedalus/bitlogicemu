@@ -4,6 +4,11 @@
 #
 # Inspired in the lectures of Allan Gottlieb 
 # https://cs.nyu.edu/~gottlieb/courses/2000s/2007-08-fall/arch/lectures/lectures.html
+#  
+# The intention of this POC is to provide the internals of a microprocesor architecrure 
+# pure implemented in boole logic, avoiding python internal control structures like
+# if,while,for,etc and atomic data types. 
+# But there is a catch, how we can implement feedback without recursion.
 #
 
 def inv(i):
