@@ -12,9 +12,9 @@ def half_adder(a,b):
 	return (c,s)
 
 def full_adder(a,b,Cin):
-	s =  ((a ^ b) ^ Cin)
+	S =  ((a ^ b) ^ Cin)
 	Cout = ((a & b) | ((a ^ b) & Cin))
-	return (Cout,s)
+	return (Cout,S)
 
 def four_bit_adder(A,B,Cin):
 	Sum = [0,0,0,0]
@@ -26,7 +26,6 @@ def four_bit_adder(A,B,Cin):
 	Sum[2] = s
 	c,s = full_adder(A[3],B[3],c)
 	Sum[3] = s
-
 	Cout = c
 	return (Cout,Sum)
 
@@ -36,23 +35,47 @@ def eight_bit_adder(A,B,Cin):
 	S += s	
 	c,s = four_bit_adder(A[4:8],B[4:8],c)
 	S += s
-	
 	Cout = c
 	return (Cout,S)
 
-
 def swap2bits(a,b):
 	i = (a ^ b)
-	B,A = (a ^ i),(b ^ i)
-	return (A,B)
+	B,A = (a ^ i),(i ^ b)
+	return (B,A)
 
-def test_truth_tables():
+def mux_1bit(a,b,X):
+	Y = (a & (X ^ 1)) | (b & X)
+	return (Y) 
+
+def mux_2bit(a,b,c,d,X0,X1):
+	Y = (a & (X1 ^ 1) & (X0 ^1)) | (b & (X0 ^1) & X1) | (c & (X1 ^1) & X0) | (d & X0 & X1)
+	return Y
+
+# this 1 bit alu supports AND,OR,ADD,SLT,SUB Ops
+# inputs a,b,aInvert,bInvert,less,CarryInput,Op0,Op1
+# ouput CarryOut,Result,OverFlow,SET
+
+def alu_1bit(a,b,aInv,bInv,less,Cin,Op0,Op1):	
+	a,b = (a ^ aInv),(b ^ bInv)
+	Cout,S = full_adder(a,b,Cin)
+	Y = mux_2bit((a & b),(a | b),S,less,Op0,Op1)
+	OF = (Cin ^ Cout)
+	SET = (S ^ OF)
+	return (Cout,Y,OF,SET)
+
+
+#
+# tests zone
+#
+
+def test_inv():
 	print "Inv"
 	print "i -> o"
 	print "0",inv(0)
 	print "1",inv(1)
 	print
 
+def test_half_adder()
 	print "half Adder"
 	print "a,b -> C,S"
 	print "0,0",half_adder(0,0)
@@ -61,6 +84,7 @@ def test_truth_tables():
 	print "1,1",half_adder(1,1)
 	print 
 
+def test_Full_Adder():
 	print "Full Adder"
 	print "a,b,Cin -> C,S"
 	print "0,0,0",full_adder(0,0,0)
@@ -73,13 +97,134 @@ def test_truth_tables():
 	print "1,1,1",full_adder(1,1,1)
 	print 	
 
+def test_four_bit_adder():
 	print "four bit adder"
 	print "a + b -> c,s"
 	print four_bit_adder([1,1,1,1],[1,0,0,0],0)
-	
+	print	
+
+def test_eight_bit_adder():
 	print "eight bit adder"
 	print "a + b -> c,s"
 	print eight_bit_adder([1,1,1,1,1,1,1,1],[1,0,0,0,0,0,0,0],0)
+	print
 
+def test_bitswap():
+	print "bitswap"
+	print "a,b -> B,A"
+	print "0,0",swap2bits(0,0)
+	print "0,1",swap2bits(0,1)
+	print "1,0",swap2bits(1,0)
+	print "1,1",swap2bits(1,1)
+	print
 
+def test_mux1_bit():
+	print "mux_1bit"
+	print "a,b,X -> Y"
+	print "0,0,0",mux_1bit(0,0,0)
+	print "0,0,1",mux_1bit(0,0,1)
+	print "0,1,0",mux_1bit(0,1,0)
+	print "0,1,1",mux_1bit(0,1,1)
+	print "1,0,0",mux_1bit(1,0,0)
+	print "1,0,1",mux_1bit(1,0,1)
+	print "1,1,0",mux_1bit(1,1,0)
+	print "1,1,1",mux_1bit(1,1,1)
+	print
+
+def test_mux_2bit():
+	print "mux_2bit"
+	print "a,b,c,d,X0,X1 -> Y"
+	print mux_2bit(0,0,0,0,0,0)
+	print mux_2bit(0,0,0,0,1,0)
+	print mux_2bit(0,0,0,0,1,1)
+	print mux_2bit(0,0,0,1,0,0)
+	print mux_2bit(0,0,0,1,0,1)
+	print mux_2bit(0,0,0,1,1,0)
+	print mux_2bit(0,0,0,1,1,1)
+	print mux_2bit(0,0,1,0,0,0)
+	print mux_2bit(0,0,1,0,0,1)
+	print mux_2bit(0,0,1,0,1,0)
+	print mux_2bit(0,0,1,0,1,1)
+	print mux_2bit(0,0,1,1,0,0)
+	print mux_2bit(0,0,1,1,0,1)
+	print mux_2bit(0,0,1,1,1,0)
+	print mux_2bit(0,0,1,1,1,1)
+	print mux_2bit(0,1,0,0,0,0)
+	print mux_2bit(0,1,0,0,0,1)
+	print mux_2bit(0,1,0,0,1,0)
+	print mux_2bit(0,1,0,0,1,1)
+	print mux_2bit(0,1,0,1,0,0)
+	print mux_2bit(0,1,0,1,0,1)
+	print mux_2bit(0,1,0,1,1,0)
+	print mux_2bit(0,1,0,1,1,1)
+	print mux_2bit(0,1,1,0,0,0)
+	print mux_2bit(0,1,1,0,0,1)
+	print mux_2bit(0,1,1,0,1,0)
+	print mux_2bit(0,1,0,0,1,1)
+	print mux_2bit(0,1,0,1,0,0)
+	print mux_2bit(0,1,0,1,0,1)
+	print mux_2bit(0,1,0,1,1,0)
+	print mux_2bit(0,1,0,1,1,1)
+	print mux_2bit(0,1,1,0,0,0)
+	print mux_2bit(0,1,1,0,0,1)
+	print mux_2bit(0,1,1,0,1,0)
+	print mux_2bit(0,1,1,0,1,1)
+	print mux_2bit(0,1,1,1,0,0)
+	print mux_2bit(0,1,1,1,0,1)
+	print mux_2bit(0,1,1,1,1,0)
+	print mux_2bit(0,1,1,1,1,1)
+	print mux_2bit(1,0,0,0,0,0)
+	print mux_2bit(1,0,0,0,1,0)
+	print mux_2bit(1,0,0,0,1,1)
+	print mux_2bit(1,0,0,1,0,0)
+	print mux_2bit(1,0,0,1,0,1)
+	print mux_2bit(1,0,0,1,1,0)
+	print mux_2bit(1,0,0,1,1,1)
+	print mux_2bit(1,0,1,0,0,0)
+	print mux_2bit(1,0,1,0,0,1)
+	print mux_2bit(1,0,1,0,1,0)
+	print mux_2bit(1,0,1,0,1,1)
+	print mux_2bit(1,0,1,1,0,0)
+	print mux_2bit(1,0,1,1,0,1)
+	print mux_2bit(1,0,1,1,1,0)
+	print mux_2bit(1,0,1,1,1,1)
+	print mux_2bit(1,1,0,0,0,0)
+	print mux_2bit(1,1,0,0,0,1)
+	print mux_2bit(1,1,0,0,1,0)
+	print mux_2bit(1,1,0,0,1,1)
+	print mux_2bit(1,1,0,1,0,0)
+	print mux_2bit(1,1,0,1,0,1)
+	print mux_2bit(1,1,0,1,1,0)
+	print mux_2bit(1,1,0,1,1,1)
+	print mux_2bit(1,1,1,0,0,0)
+	print mux_2bit(1,1,1,0,0,1)
+	print mux_2bit(1,1,1,0,1,0)
+	print mux_2bit(1,1,0,0,1,1)
+	print mux_2bit(1,1,0,1,0,0)
+	print mux_2bit(1,1,0,1,0,1)
+	print mux_2bit(1,1,0,1,1,0)
+	print mux_2bit(1,1,0,1,1,1)
+	print mux_2bit(1,1,1,0,0,0)
+	print mux_2bit(1,1,1,0,0,1)
+	print mux_2bit(1,1,1,0,1,0)
+	print mux_2bit(1,1,1,0,1,1)
+	print mux_2bit(1,1,1,1,0,0)
+	print mux_2bit(1,1,1,1,0,1)
+	print mux_2bit(1,1,1,1,1,0)
+	print mux_2bit(1,1,1,1,1,1)
+	print
+
+def test_alu1bit():
+	print "FIXME"
+	print 
+
+def test_truth_tables():
+	test_inv()
+	test_half_adder()
+	test_Full_Adder()
+	test_four_bit_adder()
+	test_eight_bit_adder()
+	test_bitswap()
+	test_test_mux1_bit()
+	
 test_truth_tables()
