@@ -2,6 +2,9 @@
 # Author Dario Clavijo 2016
 # GPLv3
 #
+# Inspired in the lectures of Allan Gottlieb 
+# https://cs.nyu.edu/~gottlieb/courses/2000s/2007-08-fall/arch/lectures/lectures.html
+#
 
 def inv(i):
 	return i ^ 1
