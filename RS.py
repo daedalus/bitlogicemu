@@ -12,20 +12,21 @@ def flipflopRS(R,S):
 
 def test_flipflopRS():
 
-	# keep the internal state then clocks
+	# keep the internal state 10 clocks
 	for i in range(10):
         	print "0,0",flipflopRS(0,0)
 	
 	# simulate a set
 	print "0,1",flipflopRS(0,1)
 	
+	# keep the internal state 10 clocks
 	for i in range(10):
 		print "0,0",flipflopRS(0,0)
 
 	# simulate a reset
 	print "1,0",flipflopRS(1,0)
 
-	# keep the internal state then clocks
+	# keep the internal state 10 clocks
 	for i in range(10):
 		print "0,0",flipflopRS(0,0)
 
