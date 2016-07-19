@@ -70,7 +70,7 @@ def alu_4bit(A,B,aInv,Bneg,Op0,Op1):
 	ZERO = ((Y[0]| Y[1] | Y[2] | Y[2])^1)
 	OF = ((OF[0]| OF[1] | OF[2] | Of[2])^1)
 	less = SET[3]
-	Cout = Cout[3]	
+	
 	return (Cout,Y,ZERO,OF)
 
 def test_mux1_bit():
