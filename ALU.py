@@ -53,9 +53,10 @@ def alu_1bit(a,b,aInv,bInv,less,Cin,Op0,Op1):
 # bNeg is a special case (bInv = Cin)
 # ZERO = (A - B)
 
+less = 0  # retroalimentation: don't know how to put this, but I will assume that it starts = 0.
 def alu_4bit(A,B,aInv,Bneg,Op0,Op1):
 
-	less = 0  # retroalimentation: don't know how to put this, but I will assume that it starts = 0.
+	global less
 	Cout = [0,0,0,0]	
 	Y = [0,0,0,0]
 	OF = [0,0,0,0]
