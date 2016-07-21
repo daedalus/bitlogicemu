@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 
-# input i
-# output = NOT i
-def inv(i):
-	return i ^ 1
-
 # inputs: a,b
 # outputs: c,s C=Carry, S=Sum(A,B)
 def half_adder(a,b):
@@ -45,12 +40,7 @@ def eight_bit_adder(A,B,Cin):
 	Cout = C
 	return (Cout,S)
 
-# inputs a,b
-# outputs a,b -> b,a
-def swap2bits(a,b):
-	i = (a ^ b)
-	B,A = (a ^ i),(i ^ b)
-	return (B,A)
+
 
 #
 # tests zone
@@ -107,11 +97,10 @@ def test_bitswap():
 	print
 
 def test_truth_tables():
-	test_inv()
 	test_half_adder()
 	test_Full_Adder()
 	test_four_bit_adder()
 	test_eight_bit_adder()
-	test_bitswap()
+
 	
 test_truth_tables()
