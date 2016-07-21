@@ -1,23 +1,29 @@
 Q=0
-Qp=0
+Qneg=0
 
+# inputs: R,S R=reset,S=Set
+# outputs: Q, QNeg (Q is always = NOT Qneg)
 def latchRS(R,S):
-	global Q,Qp
+	global Q,Qneg
 
-	Q = (Qp ^ 1) | R
-	Qp = (Q ^ 1) | S
+	Q = (Qneg ^ 1) | R
+	Qneg = (Q ^ 1) | S
  
-	return Q,Qp
-	
+	return Q,Qneg
+
+# inputs: C,D C=Clock, D=Data
+# outputs: Q,Qneg (Q is always = NOT Qneg)
 def latchD(C,D):
 	R = (C & (D ^ 1))
 	S = (C & D)
-	Q,QP = flipflopRS(R,S)
-	return Q,Qp
-	
+	Q,Qneg = flipflopRS(R,S)
+	return Q,Qneg
+
+# inputs: C,D C=Clock, D=Data
+# outputs: Q,Qneg (Q is always = NOT Qneg)
 def flipflopDMasterSlave(D,C):
-	Q,Qp = flipflopD(flipflopD(D,C),(C^1))
-	return Q,Qp
+	Q,Qneg = flipflopD(flipflopD(D,C),(C^1))
+	return Q,Qneg
 	
 def test_latchRS():
 	# keep the internal state 10 clocks
