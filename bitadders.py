@@ -1,40 +1,52 @@
 #!/usr/bin/env python
 
+# input i
+# output = NOT i
 def inv(i):
 	return i ^ 1
 
+# inputs: a,b
+# outputs: c,s C=Carry, S=Sum(A,B)
 def half_adder(a,b):
-	s = a ^ b
-	c = a & b
-	return (c,s)
+	S = a ^ b
+	C = a & b
+	return (C,S)
 
+# inputs: a,b,Cin Cin=CarryIn
+# outputs: Cout,S Cout=CarryOut,S=Sum(A,B)
 def full_adder(a,b,Cin):
 	S =  ((a ^ b) ^ Cin)
 	Cout = ((a & b) | ((a ^ b) & Cin))
 	return (Cout,S)
 
+# inputs: A[0:4], B[0:4]
+# outputs C,S[0:4] Cout=CarryOut, S=Sum(A,B)
 def four_bit_adder(A,B,Cin):
-	Sum = [0,0,0,0]
-	c,s = full_adder(A[0],B[0],Cin)
-	Sum[0] = s
-	c,s = full_adder(A[1],B[1],c)
-	Sum[1] = s
-	c,s = full_adder(A[2],B[2],c)
-	Sum[2] = s
-	c,s = full_adder(A[3],B[3],c)
-	Sum[3] = s
-	Cout = c
-	return (Cout,Sum)
-
-def eight_bit_adder(A,B,Cin):
-	S = [0,0,0,0,0,0,0,0]
-	c,s = four_bit_adder(A[0:4],B[0:4],Cin)
-	S += s	
-	c,s = four_bit_adder(A[4:8],B[4:8],c)
-	S += s
-	Cout = c
+	S = [0,0,0,0]
+	C,s = full_adder(A[0],B[0],Cin)
+	S[0] = s
+	C,s = full_adder(A[1],B[1],C)
+	S[1] = s
+	C,s = full_adder(A[2],B[2],C)
+	S[2] = s
+	C,s = full_adder(A[3],B[3],C)
+	S[3] = s
+	Cout = C
 	return (Cout,S)
 
+# inputs: A[0:4], B[0:4]
+# outputs C,S[0:4] Cout=CarryOut, S=Sum(A,B)
+def eight_bit_adder(A,B,Cin):
+	S = [0,0,0,0,0,0,0,0]
+	C,s = four_bit_adder(A[0:4],B[0:4],Cin)
+	S += s	
+	C,s = four_bit_adder(A[4:8],B[4:8],C)
+	S += s
+	Cout = C
+	return (Cout,S)
+
+# inputs a,b
+# outputs a,b -> b,a
 def swap2bits(a,b):
 	i = (a ^ b)
 	B,A = (a ^ i),(i ^ b)
