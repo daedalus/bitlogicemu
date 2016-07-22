@@ -24,7 +24,7 @@ def latchD(C,D):
 
 # inputs: C,D C=Clock, D=Data
 # outputs: Q,Qneg (Q is always = NOT Qneg)
-def flipflopDMasterSlave(D,C):
+def flipflopDMasterSlave(C,D):
 	Q,Qneg = latchD((C^1),latchD(C,D))
 	return Q,Qneg
 	
