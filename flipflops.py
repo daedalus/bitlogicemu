@@ -5,24 +5,27 @@ Qneg=0
 # outputs: Q, QNeg (Q is always = NOT Qneg)
 def latchRS(R,S):
 	global Q,Qneg
-
-	Q = (Qneg ^ 1) | R
-	Qneg = (Q ^ 1) | S
+	
+	Q = (R | Qp) ^ 1
+        Qp = (S | Q) ^ 1
  
 	return Q,Qneg
 
 # inputs: C,D C=Clock, D=Data
 # outputs: Q,Qneg (Q is always = NOT Qneg)
 def latchD(C,D):
+	global Q,Qneg
+        
 	R = (C & (D ^ 1))
 	S = (C & D)
+	
 	Q,Qneg = flipflopRS(R,S)
 	return Q,Qneg
 
 # inputs: C,D C=Clock, D=Data
 # outputs: Q,Qneg (Q is always = NOT Qneg)
 def flipflopDMasterSlave(D,C):
-	Q,Qneg = flipflopD(flipflopD(D,C),(C^1))
+	Q,Qneg = latchD((C^1),latchD(C,D))
 	return Q,Qneg
 	
 def test_latchRS():
