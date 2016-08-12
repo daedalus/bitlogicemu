@@ -1,5 +1,3 @@
-#incomplete LFSR
-
 def init_register(n):
         register = []
         for i in range(0,n):
@@ -13,7 +11,7 @@ def LFSR(register,FeedbackBit):
         new_register[i+1] = FeedbackBit
         return new_register
 
-def test_LFSR():
+def test_LFSR0():
         print "test 1"
         register = init_register(8)
         print register
@@ -31,11 +29,10 @@ def test_LFSR():
                 print register
 
 
-def test_16bitfibbo_LFSR():
+def test_LFSR1(bits,steps,taps):
         print "test 16 bit fibbo "
         print "https://en.wikipedia.org/wiki/Linear-feedback_shift_register"
-        bits = 16
-        steps = 16
+
  
         register = init_register(bits)
         print register
@@ -44,7 +41,7 @@ def test_16bitfibbo_LFSR():
         feedback_bits = ""
         for i in range(0,steps):
                 register = LFSR(register,feedback)
-                feedback = (register[10] ^ (register[12] ^ (register[13] ^ register[15])))
+                feedback = (register[taps[0]] ^ (register[taps[1]] ^ (register[taps[2]] ^ register[taps[3]])))
                 feedback_bits = feedback_bits + str(feedback)
                 print register,feedback
         print feedback_bits,
@@ -52,5 +49,9 @@ def test_16bitfibbo_LFSR():
         print ifb,hex(ifb)
 
 
-test_LFSR()
-test_16bitfibbo_LFSR()
+test_LFSR0()
+
+bits = 16
+steps = 16
+taps = [10,12,13,15]
+test_LFSR1(bits,steps,taps)
