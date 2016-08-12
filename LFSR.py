@@ -1,14 +1,16 @@
+#incomplete LFSR
+
 def init_register(n):
         register = []
         for i in range(0,n):
                 register.append(0)
         return register
 
-def LFSR(register,newBit):
+def LFSR(register,FeedbackBit):
         new_register = init_register(len(register))
         for i in range(0,len(register)-1):
                 new_register[i] = register[i+1]
-        new_register[i+1] = newBit
+        new_register[i+1] = FeedbackBit
         return new_register
 
 def test_LFSR():
