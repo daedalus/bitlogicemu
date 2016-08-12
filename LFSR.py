@@ -18,15 +18,26 @@ def test_LFSR():
         print register
 
         for i in range(0,16):
-                register = LFSR(register,(register[0] ^ 1))
+                register = LFSR(register,(1)
                 print register
         
         register = init_register(8)
         print register
 
         for i in range(0,16):
-                register = LFSR(register,1)
+                register = LFSR(register,register[0] ^ 1))
                 print register
       
-                
+        
+def test_16bitfibbo_LFSR():
+        register = init_register(8)
+        print register
+        
+        feedback = 0
+        for i in range(0,16):
+                register = LFSR(register,feedback)
+                feedback = (register[11] ^ (register[13] ^ (register[14] ^ register[16])))
+                print register,feedback
+      
 test_LFSR()
+test_16bitfibbo_LFSR()
