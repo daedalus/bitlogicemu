@@ -33,14 +33,24 @@ def test_LFSR():
 
 def test_16bitfibbo_LFSR():
         print "test 16 bit fibbo "
-        register = init_register(16)
+        print "https://en.wikipedia.org/wiki/Linear-feedback_shift_register"
+        bits = 16
+        steps = 16
+ 
+        register = init_register(bits)
         print register
 
         feedback = 1
-        for i in range(0,16):
+        feedback_bits = ""
+        for i in range(0,steps):
                 register = LFSR(register,feedback)
                 feedback = (register[10] ^ (register[12] ^ (register[13] ^ register[15])))
+                feedback_bits = feedback_bits + str(feedback)
                 print register,feedback
+        print feedback_bits,
+        ifb = int(feedback_bits,2)
+        print ifb,hex(ifb)
+
 
 test_LFSR()
 test_16bitfibbo_LFSR()
