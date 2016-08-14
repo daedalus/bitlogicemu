@@ -29,7 +29,12 @@ def test_LFSR0():
                 print register
 
 
-def test_LFSR1(bits,steps,taps):
+def test_LFSR1():
+
+	bits = 16
+	steps = 16
+	taps = [10,12,13,15]
+	
         print "test 16 bit fibbo "
         print "https://en.wikipedia.org/wiki/Linear-feedback_shift_register"
 
@@ -49,9 +54,33 @@ def test_LFSR1(bits,steps,taps):
         print ifb,hex(ifb)
 
 
-test_LFSR0()
+def bytetobits(char):
+	bits = bin(ord(char))[2:]
+	return bits
 
-bits = 16
-steps = 16
-taps = [10,12,13,15]
-test_LFSR1(bits,steps,taps)
+def bitstobytes(bits):
+	tmp = 0
+	i = 0
+	for b in bits:
+		tmp += int(b) * (i**2)
+		i+=1
+	return tmp
+
+def CRC32(data):
+	register = init_register(32)
+	taps = [24,25,29,31]
+	for i in range(len(data)):
+		bits = bytetobits(data[i])
+		for bit in bits:
+			register = LFSR(register,bit)
+			#print register,bit	
+	
+	return bitstobytes(register)
+
+test_LFSR0()
+test_LFSR1()
+
+for i in range(0,16):
+	message = 'hola man' + str(i)
+	print message,hex(CRC32(message))
+
