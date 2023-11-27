@@ -33,8 +33,8 @@ def four_bit_adder(A,B,Cin):
 # outputs C,S[0:4] Cout=CarryOut, S=Sum(A,B)
 def eight_bit_adder(A,B,Cin):
 	S = [0,0,0,0,0,0,0,0]
-	C,s = four_bit_adder(A[0:4],B[0:4],Cin)
-	S += s	
+	C,s = four_bit_adder(A[:4], B[:4], Cin)
+	S += s
 	C,s = four_bit_adder(A[4:8],B[4:8],C)
 	S += s
 	Cout = C

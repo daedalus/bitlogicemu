@@ -1,8 +1,5 @@
 def init_register(n):
-        register = []
-        for i in range(0,n):
-                register.append(0)
-        return register
+        return [0 for _ in range(0,n)]
 
 def LFSR(register,FeedbackBit):
         new_register = init_register(len(register))
@@ -55,16 +52,10 @@ def test_LFSR1():
 
 
 def bytetobits(char):
-	bits = bin(ord(char))[2:]
-	return bits
+        return bin(ord(char))[2:]
 
 def bitstobytes(bits):
-	tmp = 0
-	i = 0
-	for b in bits:
-		tmp += int(b) * (i**2)
-		i+=1
-	return tmp
+        return sum(int(b) * (i**2) for i, b in enumerate(bits))
 
 def CRC32(data):
 	register = init_register(32)
